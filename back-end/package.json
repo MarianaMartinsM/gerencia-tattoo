@@ -1,0 +1,16 @@
+{
+  "name": "vanestattoo-backend",
+  "version": "1.0.0",
+  "description": "Backend do sistema VaneStattoo",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "Mariana",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
+  }
+}
