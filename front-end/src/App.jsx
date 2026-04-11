@@ -27,28 +27,38 @@ function App() {
     })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+ const handleSubmit = (e) => {
+  e.preventDefault()
 
-    fetch('http://localhost:3000/tatuagens', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form)
+  fetch('http://localhost:3000/tatuagens', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ...form,
+      preco_base: Number(form.preco_base)
     })
-      .then(res => res.json())
-      .then(() => {
-        buscarTatuagens()
-        setForm({
-          titulo: '',
-          descricao: '',
-          preco_base: '',
-          estilo: '',
-          tatuador_id: 1
-        })
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("Erro ao cadastrar")
+      }
+      return res.json()
+    })
+    .then(() => {
+      buscarTatuagens()
+      setForm({
+        titulo: '',
+        descricao: '',
+        preco_base: '',
+        estilo: '',
+        tatuador_id: 1
       })
-  }
+    })
+    .catch(err => console.error("ERRO:", err))
+}
+
 const deletarTatuagem = (id) => {
   fetch(`http://localhost:3000/tatuagens/${id}`, {
     method: 'DELETE'
