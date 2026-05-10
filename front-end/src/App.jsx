@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const [tatuagens, setTatuagens] = useState([])
+  const [busca, setBusca] = useState('')
   const [form, setForm] = useState({
     titulo: '',
     descricao: '',
@@ -11,7 +12,7 @@ function App() {
   })
 
   const buscarTatuagens = () => {
-    fetch('http://localhost:3000/tatuagens')
+fetch(`http://localhost:3000/tatuagens?nome=${busca}`)
       .then(res => res.json())
       .then(data => setTatuagens(data))
   }
@@ -84,7 +85,24 @@ const deletarTatuagem = (id) => {
 
       <hr />
 
-      <h2>Lista de Tatuagens</h2>
+    <h2>Lista de Tatuagens</h2>
+
+<input
+  type="text"
+  placeholder="Buscar tatuagem"
+  value={busca}
+  onChange={(e) => setBusca(e.target.value)}
+/>
+
+<button onClick={buscarTatuagens}>
+  Buscar
+</button>
+
+<br /><br />
+
+
+
+<br /><br />
 
       {tatuagens.map(t => (
         <div key={t.id} style={{
