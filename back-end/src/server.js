@@ -3,8 +3,10 @@ const cors = require('cors');
 
 const tatuagemRoutes = require('./routes/tatuagem.routes');
 const tatuadorRoutes = require('./routes/tatuador.routes');
-
+const path = require('path')
 const app = express();
+
+
 
 app.use(cors());
 app.use(express.json());
@@ -12,6 +14,12 @@ app.use(express.json());
 app.use('/tatuagens', tatuagemRoutes);
 app.use('/tatuadores', tatuadorRoutes);
 
+app.use(
+  '/uploads',
+  express.static(
+    path.join(__dirname, '../uploads')
+  )
+)
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
 });
