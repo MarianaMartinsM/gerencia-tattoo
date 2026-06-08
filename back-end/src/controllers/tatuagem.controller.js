@@ -1,6 +1,7 @@
 const connection = require('../database/connection');
 
 exports.listarTatuagens = (req, res) => {
+<<<<<<< HEAD
   const sql = 'SELECT * FROM tatuagem';
 
   connection.query(sql, (err, results) => {
@@ -16,6 +17,47 @@ exports.listarTatuagens = (req, res) => {
   });
 };
 
+=======
+const { nome, ordem } = req.query;
+
+let sql = 'SELECT * FROM tatuagem';
+
+let values = [];
+
+if (nome) {
+  sql += ' WHERE titulo LIKE ?';
+  values.push(`%${nome}%`);
+}
+
+if (ordem === 'recentes') {
+  sql += ' ORDER BY id DESC';
+}
+
+connection.query(sql, values, (err, results) => {
+
+  if (err) {
+    return res.status(500).json({
+      error: 'Erro ao buscar tatuagens'
+    });
+  }
+
+  res.json(results);
+});
+};
+exports.deletarTatuagem = (req, res) => {
+  const { id } = req.params;
+
+  const sql = 'DELETE FROM tatuagem WHERE id = ?';
+
+  connection.query(sql, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erro ao deletar tatuagem' });
+    }
+
+    res.json({ message: 'Tatuagem deletada com sucesso' });
+  });
+};
+>>>>>>> cc937f45a44223750eff71e3fed64147e19094ae
 exports.criarTatuagem = (req, res) => {
   const {
     titulo,

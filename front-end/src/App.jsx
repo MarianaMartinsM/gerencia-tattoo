@@ -6,7 +6,11 @@ function App() {
   const [tela, setTela] = useState('login')
 
   const [tatuagens, setTatuagens] = useState([])
+<<<<<<< HEAD
 
+=======
+  const [busca, setBusca] = useState('')
+>>>>>>> cc937f45a44223750eff71e3fed64147e19094ae
   const [form, setForm] = useState({
     titulo: '',
     descricao: '',
@@ -19,7 +23,7 @@ function App() {
   const [logado, setLogado] = useState(false)
 
   const buscarTatuagens = () => {
-    fetch('http://localhost:3000/tatuagens')
+fetch(`http://localhost:3000/tatuagens?nome=${busca}`)
       .then(res => res.json())
       .then(data => setTatuagens(data))
   }
@@ -35,6 +39,7 @@ function App() {
     })
   }
 
+<<<<<<< HEAD
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -165,6 +170,96 @@ function App() {
           >
             Sair
           </button>
+=======
+ const handleSubmit = (e) => {
+  e.preventDefault()
+
+  fetch('http://localhost:3000/tatuagens', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ...form,
+      preco_base: Number(form.preco_base)
+    })
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("Erro ao cadastrar")
+      }
+      return res.json()
+    })
+    .then(() => {
+      buscarTatuagens()
+      setForm({
+        titulo: '',
+        descricao: '',
+        preco_base: '',
+        estilo: '',
+        tatuador_id: 1
+      })
+    })
+    .catch(err => console.error("ERRO:", err))
+}
+
+const deletarTatuagem = (id) => {
+  fetch(`http://localhost:3000/tatuagens/${id}`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(() => buscarTatuagens())
+}
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>Cadastro de Tatuagens</h1>
+
+      <form onSubmit={handleSubmit}>
+        <input name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} />
+        <br /><br />
+        <input name="descricao" placeholder="Descrição" value={form.descricao} onChange={handleChange} />
+        <br /><br />
+        <input name="preco_base" placeholder="Preço" value={form.preco_base} onChange={handleChange} />
+        <br /><br />
+        <input name="estilo" placeholder="Estilo" value={form.estilo} onChange={handleChange} />
+        <br /><br />
+        <button type="submit">Cadastrar</button>
+      </form>
+
+      <hr />
+
+    <h2>Lista de Tatuagens</h2>
+
+<input
+  type="text"
+  placeholder="Buscar tatuagem"
+  value={busca}
+  onChange={(e) => setBusca(e.target.value)}
+/>
+
+<button onClick={buscarTatuagens}>
+  Buscar
+</button>
+
+<br /><br />
+
+
+
+<br /><br />
+
+      {tatuagens.map(t => (
+        <div key={t.id} style={{
+          border: '1px solid #ccc',
+          marginBottom: '10px',
+          padding: '10px',
+          borderRadius: '8px'
+        }}>
+          <button onClick={() => deletarTatuagem(t.id)}>Excluir</button>
+          <h3>{t.titulo}</h3>
+          <p>{t.descricao}</p>
+          <p><strong>Estilo:</strong> {t.estilo}</p>
+          <p><strong>Preço:</strong> R$ {t.preco_base}</p>
+>>>>>>> cc937f45a44223750eff71e3fed64147e19094ae
         </div>
 
         <h2
